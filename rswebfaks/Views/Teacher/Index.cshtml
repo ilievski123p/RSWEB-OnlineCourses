@@ -1,0 +1,75 @@
+﻿@model IEnumerable<rswebfaks.Models.Teacher>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="position:relative; left:46.5%;">Teachers:</h1>
+
+<form asp-controller="Teacher" asp-action="Index" method="get">
+    <p style="position:relative; left:43.5%;">
+       <b>Search by:</b>
+        <input type="text" name="SearchString" placeholder="Name, Rank, Degree">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Degree)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AcademicRank)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfficeNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HireDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Degree)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AcademicRank)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfficeNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HireDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<p style="position:relative; margin-left:0.5%;">
+    <a asp-action="Create">Add new</a>
+</p>

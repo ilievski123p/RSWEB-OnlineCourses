@@ -1,0 +1,87 @@
+﻿@model IEnumerable<rswebfaks.Models.Course>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="position:relative; left:46.5%;">Courses:</h1>
+<form asp-controller="Course" asp-action="Index" method="get">
+    <p style="position:relative; left:38%;">
+        <b>Search by:</b>
+        <input type="text" name="teacherString" placeholder="TeacherID" />
+        <input type="text" name="SearchString" placeholder="Title, Semester, Programme">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Credits)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Semester)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Programme)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EducationLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstTeacherId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SecondTeacherId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Credits)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Semester)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Programme)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EducationLevel)
+                </td>
+                <td>
+                    <a asp-controller="Teacher" asp-action="Details" asp-route-id="@item.FirstTeacherId">
+                       @Html.DisplayFor(modelItem =>item.FirstTeacherId)
+                    </a>
+                </td>
+                <td>
+                    <a asp-controller="Teacher" asp-action="Details" asp-route-id="@item.SecondTeacherId">
+
+                        @Html.DisplayFor(modelItem => item.SecondTeacherId)
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+<p style="margin-left:0.5%;">
+    <a asp-action="Create">Add new</a>
+</p>
