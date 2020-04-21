@@ -204,8 +204,9 @@ namespace rswebfaks.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Course
+            var course = await _context.Course.Include(c=>c.Teacher1).Include(c=>c.Teacher2)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            
             if (course == null)
             {
                 return NotFound();
