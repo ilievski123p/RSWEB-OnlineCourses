@@ -20,10 +20,60 @@ namespace rswebfaks.Controllers
         }
 
         // GET: Student
-        public async Task<IActionResult> Index(string courseString, string searchString)
+        public async Task<IActionResult> Index(string courseString, string searchString, string sortOrder)
         {
             IQueryable<Student> students = _context.Student.AsQueryable();
-           
+
+            ViewData["FNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "fname_desc" : "";
+            ViewData["CreditsSortParm"] = sortOrder == "Credits" ? "cred_desc" : "Credits";
+            ViewData["LNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "lname_desc" : "";
+            ViewData["StudentIdSortParm"] = sortOrder=="StudentId" ? "stid_desc" : "StudentId";
+            ViewData["DateSortParm"] = sortOrder=="Date" ? "date_desc" : "Date";
+            ViewData["SemSortParm"] = sortOrder == "Semester" ? "sem_desc" : "Semester";
+            ViewData["LevelSortParm"] = sortOrder == "EducationLevel" ? "lvl_desc" : "EducationLevel";
+            switch (sortOrder)
+            {
+                case "fname_desc":
+                    students = students.OrderByDescending(s => s.FirstName);
+                    break;
+                case "Credits":
+                    students = students.OrderBy(s => s.AcquiredCredits);
+                    break;
+                case "cred_desc":
+                    students = students.OrderByDescending(s => s.AcquiredCredits);
+                    break;
+                case "StudentId":
+                    students = students.OrderBy(s => s.StudentId);
+                    break;
+                case "stid_desc":
+                    students = students.OrderByDescending(s => s.StudentId);
+                    break;
+                case "Date":
+                    students = students.OrderBy(s => s.EnrollmentDate);
+                    break;
+                case "date_desc":
+                    students = students.OrderByDescending(s => s.EnrollmentDate);
+                    break;
+                case "Semester":
+                    students = students.OrderBy(s => s.CurrentSemester);
+                    break;
+                case "sem_desc":
+                    students = students.OrderByDescending(s => s.CurrentSemester);
+                    break;
+                case "lname_desc":
+                    students = students.OrderByDescending(s => s.LastName);
+                    break;
+                case "EducationLevel":
+                    students = students.OrderBy(s => s.EducationLevel);
+                    break;
+                case "lvl_desc":
+                    students = students.OrderByDescending(s => s.EducationLevel);
+                    break;
+                default:
+                    students = students.OrderBy(s => s.FirstName);
+                    break;
+            }
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 students = students.Where(s => s.StudentId.Contains(searchString) || s.FirstName.Contains(searchString) || s.LastName.Contains(searchString));

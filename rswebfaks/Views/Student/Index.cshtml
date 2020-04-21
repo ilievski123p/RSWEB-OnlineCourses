@@ -20,25 +20,32 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StudentId)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["StudentIdSortParm"]">
+                @Html.DisplayNameFor(model => model.StudentId)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["FNameSortParm"]">
+                    @Html.DisplayNameFor(model => model.FirstName) </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                 <a asp-action="Index" asp-route-sortOrder="@ViewData["LNameSortParm"]">
+                    @Html.DisplayNameFor(model => model.LastName)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EnrollmentDate)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                    @Html.DisplayNameFor(model => model.EnrollmentDate)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AcquiredCredits)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["CreditsSortParm"]">
+                    @Html.DisplayNameFor(model => model.AcquiredCredits)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CurrentSemester)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["SemSortParm"]">
+                    @Html.DisplayNameFor(model => model.CurrentSemester)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EducationLevel)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["LevelSortParm"]">
+                    @Html.DisplayNameFor(model => model.EducationLevel)</a>
             </th>
             <th></th>
         </tr>

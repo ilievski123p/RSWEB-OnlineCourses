@@ -19,25 +19,32 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["TItleSortParm"]">
+                    @Html.DisplayNameFor(model => model.Title)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Credits)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["CreditsSortParm"]">
+                    @Html.DisplayNameFor(model => model.Credits)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Semester)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["SemesterSortParm"]">
+                    @Html.DisplayNameFor(model => model.Semester)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Programme)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ProgrammeSortParm"]">
+                    @Html.DisplayNameFor(model => model.Programme)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EducationLevel)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["LevelSortParm"]">
+                    @Html.DisplayNameFor(model => model.EducationLevel)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstTeacherId)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ftidSortParm"]">
+                    @Html.DisplayNameFor(model => model.FirstTeacherId)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SecondTeacherId)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["stidSortParm"]">
+                    @Html.DisplayNameFor(model => model.SecondTeacherId)</a>
             </th>
             <th></th>
         </tr>

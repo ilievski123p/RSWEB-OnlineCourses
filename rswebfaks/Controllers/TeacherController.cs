@@ -20,9 +20,52 @@ namespace rswebfaks.Controllers
         }
 
         // GET: Teacher
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
             IQueryable<Teacher> teachers = _context.Teacher;
+            ViewData["FnameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "fname_desc" : "";
+            ViewData["LNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "lname_desc" : "";
+            ViewData["DegreeSortParm"] = sortOrder=="Degree" ?  "deg_desc" : "Degree";
+            ViewData["RankSortParm"] = sortOrder == "AcademicRank" ?  "rank_desc" : "AcademicRank";
+            ViewData["ofnumSortParm"] = sortOrder == "OfficeNumber" ?  "ofn_desc" : "OfficeNumber";
+            ViewData["DateSortParm"] = sortOrder == "HireDate" ?  "date_desc" : "HireDate";
+            switch (sortOrder)
+            {
+                case "Degree":
+                    teachers = teachers.OrderBy(t => t.Degree);
+                    break;
+                case "AcademicRank":
+                    teachers = teachers.OrderBy(t => t.AcademicRank);
+                    break;
+                case "OfficeNumber":
+                    teachers = teachers.OrderBy(t => t.OfficeNumber);
+                    break;
+                case "HireDate":
+                    teachers = teachers.OrderBy(t => t.HireDate);
+                    break;
+                case "fname_desc":
+                    teachers = teachers.OrderByDescending(t => t.FirstName);
+                    break;
+                case "lname_desc":
+                    teachers = teachers.OrderByDescending(t => t.LastName);
+                    break;
+                case "deg_desc":
+                    teachers = teachers.OrderByDescending(t => t.Degree);
+                    break;
+                case "rank_desc":
+                    teachers = teachers.OrderByDescending(t => t.AcademicRank);
+                    break;
+                case "ofn_desc":
+                    teachers = teachers.OrderByDescending(t => t.OfficeNumber);
+                    break;
+                case "date_desc":
+                    teachers = teachers.OrderByDescending(t => t.HireDate);
+                    break;
+                default:
+                    teachers = teachers.OrderBy(t => t.FirstName);
+                    break;
+            }
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 teachers = teachers.Where(s => s.FirstName.Contains(searchString) || s.LastName.Contains(searchString) || s.AcademicRank.Contains(searchString) || s.Degree.Contains(searchString));

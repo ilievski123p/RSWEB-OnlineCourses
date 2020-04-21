@@ -20,10 +20,61 @@ namespace rswebfaks.Controllers
         }
 
         // GET: Course
-        public async Task<IActionResult> Index(string teacherString, string searchString)
+        public async Task<IActionResult> Index(string teacherString, string searchString, string sortOrder)
         {
             IQueryable<Course> courses = _context.Course.Include(t => t.Teacher);
-           
+            ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewData["CreditsSortParm"] = sortOrder == "Credits" ? "cred_desc" : "Credits";
+            ViewData["SemesterSortParm"] = sortOrder == "Semester" ? "sem_desc" : "Semester";
+            ViewData["ProgrammeSortParm"] = sortOrder == "Programme" ? "prom_desc" : "Programme";
+            ViewData["LevelSortParm"] = sortOrder == "EducationLevel" ? "lvl_desc" : "EducationLevel";
+            ViewData["ftidSortParm"] = sortOrder == "FirstTeacherId" ? "ftid_desc" : "FirstTeacherId";
+            ViewData["stidSortParm"] = sortOrder == "SecondTeacherId" ? "stid_desc" : "SecondTeacherId";
+            switch (sortOrder)
+            {
+                case "Credits":
+                    courses = courses.OrderBy(s => s.Credits);
+                    break;
+                case "Semester":
+                    courses = courses.OrderBy(s => s.Semester);
+                    break;
+                case "Programme":
+                    courses = courses.OrderBy(s => s.Programme);
+                    break;
+                case "EducationLevel":
+                    courses = courses.OrderBy(s => s.EducationLevel);
+                    break;
+                case "FirstTeacherId":
+                    courses = courses.OrderBy(s => s.FirstTeacherId);
+                    break;
+                case "SecondTeacherId":
+                    courses = courses.OrderBy(s => s.SecondTeacherId);
+                    break;
+                case "title_desc":
+                    courses = courses.OrderByDescending(s => s.Title);
+                    break;
+                case "cred_decs":
+                    courses = courses.OrderByDescending(s => s.Credits);
+                    break;
+                case "sem_desc":
+                    courses = courses.OrderByDescending(s => s.Semester);
+                    break;
+                case "prom_desc":
+                    courses = courses.OrderByDescending(s => s.Programme);
+                    break;
+                case "lvl_desc":
+                    courses = courses.OrderByDescending(s => s.EducationLevel);
+                    break;
+                case "ftid_desc":
+                    courses = courses.OrderByDescending(s => s.FirstTeacherId);
+                    break;
+                case "stid_desc":
+                    courses = courses.OrderByDescending(s => s.SecondTeacherId);
+                    break;
+                default:
+                    courses = courses.OrderBy(c => c.Title);
+                    break;
+            }
             if (!String.IsNullOrEmpty(searchString))
             {
                 int x = 0;
