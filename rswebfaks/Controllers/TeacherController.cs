@@ -22,7 +22,11 @@ namespace rswebfaks.Controllers
         // GET: Teacher
         public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
-            IQueryable<Teacher> teachers = _context.Teacher;
+           var teachers = from m in _context.Teacher
+                          select m;
+            teachers = teachers.Include(t => t.Courses1).Include(t => t.Courses2);
+                     
+            // Sortiranje
             ViewData["FnameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "fname_desc" : "";
             ViewData["LNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "lname_desc" : "";
             ViewData["DegreeSortParm"] = sortOrder=="Degree" ?  "deg_desc" : "Degree";
@@ -66,10 +70,12 @@ namespace rswebfaks.Controllers
                     break;
             }
 
+            //Search
             if (!String.IsNullOrEmpty(searchString))
             {
                 teachers = teachers.Where(s => s.FirstName.Contains(searchString) || s.LastName.Contains(searchString) || s.AcademicRank.Contains(searchString) || s.Degree.Contains(searchString));
             }
+          
             return View(await teachers.ToListAsync());
         }
 

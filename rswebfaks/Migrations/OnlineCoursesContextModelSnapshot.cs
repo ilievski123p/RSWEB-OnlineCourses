@@ -46,9 +46,6 @@ namespace rswebfaks.Migrations
                     b.Property<int>("Semester")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Teacherid")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -56,7 +53,9 @@ namespace rswebfaks.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Teacherid");
+                    b.HasIndex("FirstTeacherId");
+
+                    b.HasIndex("SecondTeacherId");
 
                     b.ToTable("Course");
                 });
@@ -213,15 +212,20 @@ namespace rswebfaks.Migrations
 
             modelBuilder.Entity("rswebfaks.Models.Course", b =>
                 {
-                    b.HasOne("rswebfaks.Models.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("Teacherid");
+                    b.HasOne("rswebfaks.Models.Teacher", "Teacher1")
+                        .WithMany("Courses1")
+                        .HasForeignKey("FirstTeacherId");
+
+                    b.HasOne("rswebfaks.Models.Teacher", "Teacher2")
+                        .WithMany("Courses2")
+                        .HasForeignKey("SecondTeacherId")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("rswebfaks.Models.Enrollment", b =>
                 {
                     b.HasOne("rswebfaks.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("Enrollments")
                         .HasForeignKey("Courseid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

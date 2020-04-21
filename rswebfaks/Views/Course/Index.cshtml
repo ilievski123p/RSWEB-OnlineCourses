@@ -8,7 +8,7 @@
 <form asp-controller="Course" asp-action="Index" method="get">
     <p style="position:relative; left:38%;">
         <b>Search by:</b>
-        <input type="text" name="teacherString" placeholder="TeacherID" />
+        <input type="text" name="teacherString" placeholder="Teacher, TeacherID" />
         <input type="text" name="SearchString" placeholder="Title, Semester, Programme">
         <input type="submit" value="Filter" />
     </p>
@@ -40,11 +40,11 @@
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["ftidSortParm"]">
-                    @Html.DisplayNameFor(model => model.FirstTeacherId)</a>
+                    @Html.DisplayName("First Teacher")</a>
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["stidSortParm"]">
-                    @Html.DisplayNameFor(model => model.SecondTeacherId)</a>
+                    @Html.DisplayName("Second Teacher")</a>
             </th>
             <th></th>
         </tr>
@@ -70,13 +70,13 @@
                 </td>
                 <td>
                     <a asp-controller="Teacher" asp-action="Details" asp-route-id="@item.FirstTeacherId">
-                       @Html.DisplayFor(modelItem =>item.FirstTeacherId)
+                       @Html.DisplayFor(modelItem =>item.Teacher1.FullName)
                     </a>
                 </td>
                 <td>
                     <a asp-controller="Teacher" asp-action="Details" asp-route-id="@item.SecondTeacherId">
 
-                        @Html.DisplayFor(modelItem => item.SecondTeacherId)
+                        @Html.DisplayFor(modelItem => item.Teacher2.FullName)
                     </a>
                 </td>
                 <td>

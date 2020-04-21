@@ -22,7 +22,8 @@ namespace rswebfaks.Controllers
         // GET: Student
         public async Task<IActionResult> Index(string courseString, string searchString, string sortOrder)
         {
-            IQueryable<Student> students = _context.Student.AsQueryable();
+            var students = from m in _context.Student
+                           select m;
 
             ViewData["FNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "fname_desc" : "";
             ViewData["CreditsSortParm"] = sortOrder == "Credits" ? "cred_desc" : "Credits";
@@ -86,7 +87,7 @@ namespace rswebfaks.Controllers
                 students = students.Where(s => s.Enrollments.Any(e => e.Course.Title == courseString));
                
             }
-            return View(await students.ToListAsync());
+           return View(await students.ToListAsync());
         }
 
         // GET: Student/Details/5

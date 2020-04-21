@@ -43,16 +43,16 @@
                 @Html.DisplayFor(model => model.EducationLevel)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.FirstTeacherId)
+                @Html.DisplayName("First Teacher")
             </dt>
             <dd class="col-sm-10">
-                <a asp-controller="Teacher" asp-action="Details" asp-route-id="@Model.FirstTeacherId">@Html.DisplayFor(ModelItem => Model.FirstTeacherId)</a>
+                <a asp-controller="Teacher" asp-action="Details" asp-route-id="@Model.FirstTeacherId">@Html.DisplayFor(ModelItem => Model.Teacher1.FullName)</a>
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.SecondTeacherId)
+                @Html.DisplayName("Second Teacher")
             </dt>
             <dd class="col-sm-10">
-                <a asp-controller="Teacher" asp-action="Details" asp-route-id="@Model.SecondTeacherId">@Html.DisplayFor(ModelItem=>Model.SecondTeacherId)</a>
+                <a asp-controller="Teacher" asp-action="Details" asp-route-id="@Model.SecondTeacherId">@Html.DisplayFor(ModelItem=>Model.Teacher2.FullName)</a>
             </dd>
         </dl>
 

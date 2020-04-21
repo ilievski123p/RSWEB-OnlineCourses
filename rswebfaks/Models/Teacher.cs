@@ -37,6 +37,8 @@ namespace rswebfaks.Models
                 return String.Format("{0} {1}", FirstName, LastName);
             }
         }
-        
+        [NotMapped]
+        public ICollection<Course> Courses1 { get; set; }
+        public ICollection<Course> Courses2 { get; set; }
     }
 }

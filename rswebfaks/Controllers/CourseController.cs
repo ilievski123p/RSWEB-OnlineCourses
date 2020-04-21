@@ -22,7 +22,9 @@ namespace rswebfaks.Controllers
         // GET: Course
         public async Task<IActionResult> Index(string teacherString, string searchString, string sortOrder)
         {
-            IQueryable<Course> courses = _context.Course.Include(t => t.Teacher);
+            var courses = from c in _context.Course
+                          select c;
+            courses = courses.Include(c => c.Teacher2).Include(c => c.Teacher1);
             ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewData["CreditsSortParm"] = sortOrder == "Credits" ? "cred_desc" : "Credits";
             ViewData["SemesterSortParm"] = sortOrder == "Semester" ? "sem_desc" : "Semester";
@@ -81,13 +83,14 @@ namespace rswebfaks.Controllers
                 Int32.TryParse(searchString, out x);
                 courses = courses.Where(s => s.Title.Contains(searchString) || s.Semester == x || s.Programme.Contains(searchString));
             }
+            
             if (!String.IsNullOrEmpty(teacherString))
             {
                 // var  teachers = _context.Teacher.Where(m=>m.FirstName.Contains(teacherString));
                 
                 int y = 0;
                Int32.TryParse(teacherString, out y);
-               courses = courses.Where(s => s.FirstTeacherId == y || s.SecondTeacherId == y || s.Teacher.FirstName.Contains(teacherString));
+               courses = courses.Where(s => s.FirstTeacherId == y || s.SecondTeacherId == y || s.Teacher1.FirstName.Contains(teacherString) || s.Teacher2.FirstName.Contains(teacherString));
                
             }
             return View(await courses.ToListAsync());
@@ -101,7 +104,7 @@ namespace rswebfaks.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Course.Include(t=>t.Teacher)
+            var course = await _context.Course.Include(t=>t.Teacher1).Include (t=>t.Teacher2)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {
