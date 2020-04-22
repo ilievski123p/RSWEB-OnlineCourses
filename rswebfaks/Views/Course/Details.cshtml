@@ -52,10 +52,25 @@
                 @Html.DisplayName("Second Teacher")
             </dt>
             <dd class="col-sm-10">
-                <a asp-controller="Teacher" asp-action="Details" asp-route-id="@Model.SecondTeacherId">@Html.DisplayFor(ModelItem=>Model.Teacher2.FullName)</a>
+                <a asp-controller="Teacher" asp-action="Details" asp-route-id="@Model.SecondTeacherId">@Html.DisplayFor(ModelItem => Model.Teacher2.FullName)</a>
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayName("Students")
+            </dt>
+            <dd class="col-sm-10">
+                @foreach(var studenti in Model.Enrollments)
+                {
+                    <a asp-controller="Enrollment" asp-action="Details" asp-route-id="@studenti.Id">
+                    @Html.DisplayFor(modelItem => studenti.Student.FullName)
+                    </a>
+                    <br />
+                }
             </dd>
         </dl>
-
+        
+        <a asp-controller="Enrollment" asp-action="Create">
+            <button class="kopce">Add new student</button>
+        </a>
         <div>
             <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
             <a asp-action="Index">Back to List</a>

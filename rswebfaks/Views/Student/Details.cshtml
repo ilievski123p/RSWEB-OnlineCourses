@@ -4,74 +4,79 @@
     ViewData["Title"] = "Details";
 }
 
-<h1 style="position:relative; left:49%;">Details</h1>
 
-<div>
-    <hr />
-    <div style="position:relative; left:42%;">
+<<h1 style="position:relative; left:49%;">Details</h1>
 
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.StudentId)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StudentId)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.FirstName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FirstName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.LastName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.LastName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.EnrollmentDate)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.EnrollmentDate)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.AcquiredCredits)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.AcquiredCredits)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.CurrentSemester)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CurrentSemester)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.EducationLevel)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.EducationLevel)
-            </dd>
-        </dl>
-              <dl class="row">
-             <dd class="col-sm-12">
-              <b>@Html.DisplayName("Enrolled Courses:")</b>
+ <div>
+     <hr />
+     <div style="position:relative; left:42%;">
+
+         <dl class="row">
+             <dt class="col-sm-2">
+                 @Html.DisplayNameFor(model => model.StudentId)
+             </dt>
+             <dd class="col-sm-10">
+                 @Html.DisplayFor(model => model.StudentId)
+             </dd>
+             <dt class="col-sm-2">
+                 @Html.DisplayNameFor(model => model.FirstName)
+             </dt>
+             <dd class="col-sm-10">
+                 @Html.DisplayFor(model => model.FirstName)
+             </dd>
+             <dt class="col-sm-2">
+                 @Html.DisplayNameFor(model => model.LastName)
+             </dt>
+             <dd class="col-sm-10">
+                 @Html.DisplayFor(model => model.LastName)
+             </dd>
+             <dt class="col-sm-2">
+                 @Html.DisplayNameFor(model => model.EnrollmentDate)
+             </dt>
+             <dd class="col-sm-10">
+                 @Html.DisplayFor(model => model.EnrollmentDate)
+             </dd>
+             <dt class="col-sm-2">
+                 @Html.DisplayNameFor(model => model.AcquiredCredits)
+             </dt>
+             <dd class="col-sm-10">
+                 @Html.DisplayFor(model => model.AcquiredCredits)
+             </dd>
+             <dt class="col-sm-2">
+                 @Html.DisplayNameFor(model => model.CurrentSemester)
+             </dt>
+             <dd class="col-sm-10">
+                 @Html.DisplayFor(model => model.CurrentSemester)
+             </dd>
+             <dt class="col-sm-2">
+                 @Html.DisplayNameFor(model => model.EducationLevel)
+             </dt>
+             <dd class="col-sm-10">
+                 @Html.DisplayFor(model => model.EducationLevel)
+             </dd>
+
+
+             <dd class="col-sm-2">
+                 <b>@Html.DisplayName("Enrolled Courses")</b>
              </dd>
              <dt class="col-sm-10">
-                @foreach(var item in Model.Enrollments)
-                {
-                    <a asp-controller="Course" asp-action="Details" asp-route-id="@item.Courseid">
-                    @Html.DisplayFor(modelItem => item.Course.Title)
-                    <br />
-                    </a>
-                }
+                 @foreach (var item in Model.Enrollments)
+                 {
+                     <a asp-controller="Enrollment" asp-action="Details" asp-route-id="@item.Id">
+                         @Html.DisplayFor(modelItem => item.Course.Title)
+                         <br />
+                     </a>
+                 }
              </dt>
+             </dl>
 
-        </dl>
-        <div>
-            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-            <a asp-action="Index">Back to List</a>
-        </div>
-    </div>
+             <a asp-controller="Enrollment" asp-action="Create">
+                 <button class="kopce">Add new course</button>
+             </a>
+             <div>
+                 <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                 <a asp-action="Index">Back to List</a>
+             </div>
 </div>
+     
+ </div>

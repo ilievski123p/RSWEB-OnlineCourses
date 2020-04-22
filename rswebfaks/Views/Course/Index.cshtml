@@ -85,8 +85,8 @@
             <td>
                 @foreach (var studenti in item.Enrollments)
                 {
-                    <a asp-controller="Student" asp-action="Details" asp-route-id="@studenti.Studentid">
-                        @Html.DisplayFor(modelitem => studenti.Student.FullName)
+                    <a asp-controller="Enrollment" asp-action="Details" asp-route-id="@studenti.Id">
+                        @Html.DisplayFor(modelItem => studenti.Student.FullName)
                         </a>
                         <br />
                         }

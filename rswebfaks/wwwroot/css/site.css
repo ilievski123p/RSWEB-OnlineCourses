@@ -138,3 +138,10 @@ body {
         box-shadow: 0.12rem 0.12rem 0.12rem #757575;
         transform: translateY(4px);
     }
+.kopce {
+    background-color: #BDBDBD;
+    color: white;
+    border:none;
+    margin-bottom:1%;
+    
+}
