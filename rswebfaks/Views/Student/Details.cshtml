@@ -62,7 +62,7 @@
                 @foreach(var item in Model.Enrollments)
                 {
                     <a asp-controller="Course" asp-action="Details" asp-route-id="@item.Courseid">
-                    @Html.DisplayFor(modelItem => item.Courseid)
+                    @Html.DisplayFor(modelItem => item.Course.Title)
                     <br />
                     </a>
                 }

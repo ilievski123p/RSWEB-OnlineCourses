@@ -47,6 +47,9 @@
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["LevelSortParm"]">
                     @Html.DisplayNameFor(model => model.EducationLevel)</a>
             </th>
+            <th>
+                @Html.DisplayName("Courses")
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -74,6 +77,15 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.EducationLevel)
+                </td>
+                <td>
+                    @foreach(var studenti in item.Enrollments)
+                    {
+                        <a asp-controller="Course" asp-action="Details" asp-route-id="@studenti.Courseid" >
+                        @Html.DisplayFor(modelItem => studenti.Course.Title)
+                            </a>
+                        <br />
+                    }
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

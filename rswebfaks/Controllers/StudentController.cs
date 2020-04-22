@@ -99,7 +99,7 @@ namespace rswebfaks.Controllers
                 return NotFound();
             }
             var enrols = _context.Enrollment;
-            Student student = await _context.Student.Include(s=>s.Enrollments)
+            var student = await _context.Student.Include(s=>s.Enrollments).ThenInclude(s=>s.Course)
                // .Include(s => s.Enrollments.Where(e=>e.Studentid == id))
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
