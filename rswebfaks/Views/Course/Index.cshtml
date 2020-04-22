@@ -46,45 +46,58 @@
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["stidSortParm"]">
                     @Html.DisplayName("Second Teacher")</a>
             </th>
+            <th>
+                @Html.DisplayName("Students")
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Credits)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Semester)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Programme)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EducationLevel)
-                </td>
-                <td>
-                    <a asp-controller="Teacher" asp-action="Details" asp-route-id="@item.FirstTeacherId">
-                       @Html.DisplayFor(modelItem =>item.Teacher1.FullName)
-                    </a>
-                </td>
-                <td>
-                    <a asp-controller="Teacher" asp-action="Details" asp-route-id="@item.SecondTeacherId">
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Credits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Semester)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Programme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EducationLevel)
+            </td>
+            <td>
+                <a asp-controller="Teacher" asp-action="Details" asp-route-id="@item.FirstTeacherId">
+                    @Html.DisplayFor(modelItem => item.Teacher1.FullName)
+                </a>
+            </td>
+            <td>
+                <a asp-controller="Teacher" asp-action="Details" asp-route-id="@item.SecondTeacherId">
 
-                        @Html.DisplayFor(modelItem => item.Teacher2.FullName)
-                    </a>
+                    @Html.DisplayFor(modelItem => item.Teacher2.FullName)
+                </a>
+            </td>
+            <td>
+                @foreach (var studenti in item.Enrollments)
+                {
+                    <a asp-controller="Student" asp-action="Details" asp-route-id="@studenti.Studentid">
+                        @Html.DisplayFor(modelitem => studenti.Student.FullName)
+                        </a>
+                        <br />
+                        }
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+
+        </tr>
         }
 
     </tbody>

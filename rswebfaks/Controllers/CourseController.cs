@@ -24,7 +24,7 @@ namespace rswebfaks.Controllers
         {
             var courses = from c in _context.Course
                           select c;
-            courses = courses.Include(c => c.Teacher2).Include(c => c.Teacher1);
+            courses = courses.Include(c => c.Teacher2).Include(c => c.Teacher1).Include(c=>c.Enrollments).ThenInclude(c=>c.Student);
             ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewData["CreditsSortParm"] = sortOrder == "Credits" ? "cred_desc" : "Credits";
             ViewData["SemesterSortParm"] = sortOrder == "Semester" ? "sem_desc" : "Semester";
