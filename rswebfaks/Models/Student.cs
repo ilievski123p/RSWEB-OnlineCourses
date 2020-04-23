@@ -35,7 +35,7 @@ namespace rswebfaks.Models
         public int AcquiredCredits { get; set; }
 
         [Display(Name = "Current Semester")]
-        public int CurrentSemester { get; set; }
+        public int CurrentSemestar { get; set; }
 
         [StringLength(25)]
         [Display(Name = "Education Level")]

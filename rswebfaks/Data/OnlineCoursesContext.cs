@@ -22,11 +22,11 @@ namespace rswebfaks.Data
             modelBuilder.Entity<Enrollment>()
                 .HasOne<Student>(p => p.Student)
                 .WithMany(p => p.Enrollments)
-                .HasForeignKey(p => p.Studentid);
+                .HasForeignKey(p => p.StudentId);
             modelBuilder.Entity<Enrollment>()
                 .HasOne<Course>(d => d.Course)
                 .WithMany(d => d.Enrollments)
-                .HasForeignKey(d => d.Courseid);
+                .HasForeignKey(d => d.CourseId);
             modelBuilder.Entity<Course>()
                 .HasOne<Teacher>(p => p.Teacher1)
                 .WithMany(p => p.Courses1)

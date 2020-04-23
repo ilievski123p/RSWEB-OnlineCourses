@@ -56,10 +56,10 @@ namespace rswebfaks.Controllers
                     students = students.OrderByDescending(s => s.EnrollmentDate);
                     break;
                 case "Semester":
-                    students = students.OrderBy(s => s.CurrentSemester);
+                    students = students.OrderBy(s => s.CurrentSemestar);
                     break;
                 case "sem_desc":
-                    students = students.OrderByDescending(s => s.CurrentSemester);
+                    students = students.OrderByDescending(s => s.CurrentSemestar);
                     break;
                 case "lname_desc":
                     students = students.OrderByDescending(s => s.LastName);

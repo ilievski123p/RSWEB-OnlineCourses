@@ -67,8 +67,8 @@ namespace rswebfaks.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Courseid"] = new SelectList(_context.Course, "Id", "Title", enrollment.Courseid);
-            ViewData["Studentid"] = new SelectList(_context.Student, "Id", "FullName", enrollment.Studentid);
+            ViewData["Courseid"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
+            ViewData["Studentid"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
             return View(enrollment);
         }
 
@@ -85,8 +85,8 @@ namespace rswebfaks.Controllers
             {
                 return NotFound();
             }
-            ViewData["Courseid"] = new SelectList(_context.Course, "Id", "Title", enrollment.Courseid);
-            ViewData["Studentid"] = new SelectList(_context.Student, "Id", "FullName", enrollment.Studentid);
+            ViewData["Courseid"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
+            ViewData["Studentid"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
             return View(enrollment);
         }
 
@@ -122,8 +122,8 @@ namespace rswebfaks.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Courseid"] = new SelectList(_context.Course, "Id", "Title", enrollment.Courseid);
-            ViewData["Studentid"] = new SelectList(_context.Student, "Id", "FullName", enrollment.Studentid);
+            ViewData["Courseid"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
+            ViewData["Studentid"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
             return View(enrollment);
         }
 

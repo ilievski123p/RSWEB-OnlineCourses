@@ -41,7 +41,7 @@
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["SemSortParm"]">
-                    @Html.DisplayNameFor(model => model.CurrentSemester)</a>
+                    @Html.DisplayNameFor(model => model.CurrentSemestar)</a>
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["LevelSortParm"]">
@@ -73,7 +73,7 @@
                     @Html.DisplayFor(modelItem => item.AcquiredCredits)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CurrentSemester)
+                    @Html.DisplayFor(modelItem => item.CurrentSemestar)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.EducationLevel)
@@ -81,7 +81,7 @@
                 <td>
                     @foreach(var studenti in item.Enrollments)
                     {
-                        <a asp-controller="Course" asp-action="Details" asp-route-id="@studenti.Courseid" >
+                        <a asp-controller="Course" asp-action="Details" asp-route-id="@studenti.CourseId" >
                         @Html.DisplayFor(modelItem => studenti.Course.Title)
                             </a>
                         <br />

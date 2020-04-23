@@ -11,7 +11,7 @@ namespace rswebfaks.Models
     {
         [Key]
         [Required]
-        public int id { get; set; }
+        public int Id { get; set; }
         [StringLength(50)]
         [Required]
         [Display(Name = "First Name")]

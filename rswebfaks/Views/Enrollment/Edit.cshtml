@@ -14,14 +14,18 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Courseid" class="control-label">Course</label>
-                <select asp-for="Courseid" class="form-control" asp-items="ViewBag.Courseid"></select>
-                <span asp-validation-for="Courseid" class="text-danger"></span>
+                <label asp-for="CourseId" class="control-label">Course</label>
+                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.Courseid">
+                    <option value="" disabled selected></option>
+                </select>
+                <span asp-validation-for="CourseId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Studentid" class="control-label">Student</label>
-                <select asp-for="Studentid" class="form-control" asp-items="ViewBag.Studentid"></select>
-                <span asp-validation-for="Studentid" class="text-danger"></span>
+                <label asp-for="StudentId" class="control-label">Student</label>
+                <select asp-for="StudentId" class="form-control" asp-items="ViewBag.Studentid">
+                    <option value="" disabled selected></option>
+                </select>
+                <span asp-validation-for="StudentId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Semester" class="control-label"></label>

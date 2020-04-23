@@ -88,7 +88,7 @@ namespace rswebfaks.Controllers
             }
 
             var teacher = await _context.Teacher.Include(t=>t.Courses1).Include(t=>t.Courses2)
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null)
             {
                 return NotFound();
@@ -142,7 +142,7 @@ namespace rswebfaks.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,FirstName,LastName,Degree,AcademicRank,OfficeNumber,HireDate")] Teacher teacher)
         {
-            if (id != teacher.id)
+            if (id != teacher.Id)
             {
                 return NotFound();
             }
@@ -156,7 +156,7 @@ namespace rswebfaks.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TeacherExists(teacher.id))
+                    if (!TeacherExists(teacher.Id))
                     {
                         return NotFound();
                     }
@@ -179,7 +179,7 @@ namespace rswebfaks.Controllers
             }
 
             var teacher = await _context.Teacher
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null)
             {
                 return NotFound();
@@ -201,7 +201,7 @@ namespace rswebfaks.Controllers
 
         private bool TeacherExists(int id)
         {
-            return _context.Teacher.Any(e => e.id == id);
+            return _context.Teacher.Any(e => e.Id == id);
         }
     }
 }

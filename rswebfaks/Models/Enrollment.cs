@@ -15,11 +15,11 @@ namespace rswebfaks.Models
 
         [Required]
         [ForeignKey("Courseid")]
-        public int? Courseid { get; set; }
+        public int? CourseId { get; set; }
 
         [Required]
         [ForeignKey("Studentid")]
-        public long? Studentid { get; set; }
+        public long? StudentId { get; set; }
 
         [StringLength(10)]
         public string Semester { get; set; }
@@ -41,6 +41,9 @@ namespace rswebfaks.Models
 
         [Display(Name = "Seminal Points")]
         public int SeminalPoints { get; set; }
+
+        [Display(Name = "Project Points")]
+        public int ProjectPoints { get; set; }
 
         [Display(Name = "Additional Points")]
         public int AdditionalPoints { get; set; }
