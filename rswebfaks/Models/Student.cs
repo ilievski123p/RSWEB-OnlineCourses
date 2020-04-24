@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -40,6 +41,8 @@ namespace rswebfaks.Models
         [StringLength(25)]
         [Display(Name = "Education Level")]
         public string EducationLevel { get; set; }
+        
+     
 
         public string FullName
         {

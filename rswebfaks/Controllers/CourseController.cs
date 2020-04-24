@@ -110,16 +110,16 @@ namespace rswebfaks.Controllers
             {
                 return NotFound();
             }
-            ViewData["FirstTeacherId"] = new SelectList(_context.Teacher, "id", "FullName", course.FirstTeacherId);
-            ViewData["SecondTeacherId"] = new SelectList(_context.Teacher, "id", "FullName", course.SecondTeacherId);
+            ViewData["FirstTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName", course.FirstTeacherId);
+            ViewData["SecondTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName", course.SecondTeacherId);
             return View(course);
         }
 
         // GET: Course/Create
         public IActionResult Create()
         {
-            ViewData["FirstTeacherId"] = new SelectList(_context.Teacher, "id", "FullName");
-            ViewData["SecondTeacherId"] = new SelectList(_context.Teacher, "id", "FullName");
+            ViewData["FirstTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName");
+            ViewData["SecondTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName");
             return View();
         }
 
@@ -136,8 +136,8 @@ namespace rswebfaks.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FirstTeacherId"] = new SelectList(_context.Teacher, "id", "FullName", course.FirstTeacherId);
-            ViewData["SecondTeacherId"] = new SelectList(_context.Teacher, "id", "FullName", course.SecondTeacherId);
+            ViewData["FirstTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName", course.FirstTeacherId);
+            ViewData["SecondTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName", course.SecondTeacherId);
             return View(course);
         }
 
@@ -154,8 +154,8 @@ namespace rswebfaks.Controllers
             {
                 return NotFound();
             }
-            ViewData["FirstTeacherId"] = new SelectList(_context.Teacher, "id", "FullName", course.FirstTeacherId);
-            ViewData["SecondTeacherId"] = new SelectList(_context.Teacher, "id", "FullName", course.SecondTeacherId);
+            ViewData["FirstTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName", course.FirstTeacherId);
+            ViewData["SecondTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName", course.SecondTeacherId);
             return View(course);
         }
 
@@ -191,8 +191,8 @@ namespace rswebfaks.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FirstTeacherId"] = new SelectList(_context.Teacher, "id", "FullName", course.FirstTeacherId);
-            ViewData["SecondTeacherId"] = new SelectList(_context.Teacher, "id", "FullName", course.SecondTeacherId);
+            ViewData["FirstTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName", course.FirstTeacherId);
+            ViewData["SecondTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName", course.SecondTeacherId);
             return View(course);
         }
 
