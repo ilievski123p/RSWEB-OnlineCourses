@@ -1,0 +1,22 @@
+﻿@model IEnumerable<rswebfaks.Models.Student>
+@{
+    ViewData["Title"] = "StudentView";
+}
+
+<div class="pocetnapocetna">
+    <h1>Select Student</h1>
+    @foreach (var item in Model)
+    {
+    <div>
+        - <a href="~/Enrollment/StudentEnrollment?SearchString=@item.FirstName">
+        <img src="~/images/@item.ProfilePicture"
+         class="rounded-circle"
+         height="50" width="50"
+         asp-append-version="true" />
+         @Html.DisplayFor(modelItem => item.FullName)
+        
+           </a>
+    </div>
+    <br />
+    }
+</div>

@@ -202,5 +202,78 @@ namespace rswebfaks.Controllers
         {
             return _context.Enrollment.Any(e => e.Id == id);
         }
+
+
+
+        public async Task<IActionResult> StudentEnrollment(string searchString)
+        {
+            var enrols = _context.Enrollment.Include(e => e.Course).Include(e => e.Student).AsQueryable();
+            enrols = enrols.Where(m => m.Student.FirstName.Contains(searchString));
+            return View(await enrols.ToListAsync());
+        }
+
+
+
+
+
+
+        //----------------------------------------------------------------------------------------------------------
+
+
+        // GET: Enrollment/Edit/5
+        public async Task<IActionResult> StudentEnrollmentEdit(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var enrollment = await _context.Enrollment.FindAsync(id);
+            if (enrollment == null)
+            {
+                return NotFound();
+            }
+            ViewData["Courseid"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
+            ViewData["Studentid"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
+            return View(enrollment);
+        }
+
+        // POST: Enrollment/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> StudentEnrollmentEdit(long id, [Bind("Id,CourseId,StudentId,Semester,Year,Grade,SeminalUrl,ProjectUrl,ExamPoints,SeminalPoints,ProjectPoints,AdditionalPoints,FinishDate")] Enrollment enrollment)
+        {
+            if (id != enrollment.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(enrollment);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EnrollmentExists(enrollment.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
+            return View(enrollment);
+        }
+
     }
 }

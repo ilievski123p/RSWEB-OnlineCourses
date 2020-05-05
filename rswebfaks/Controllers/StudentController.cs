@@ -31,12 +31,12 @@ namespace rswebfaks.Controllers
         {
             var students = from m in _context.Student
                            select m;
-            students = students.Include(s=>s.Enrollments).ThenInclude(s=>s.Course);
+            students = students.Include(s => s.Enrollments).ThenInclude(s => s.Course);
             ViewData["FNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "fname_desc" : "";
             ViewData["CreditsSortParm"] = sortOrder == "Credits" ? "cred_desc" : "Credits";
             ViewData["LNameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "lname_desc" : "";
-            ViewData["StudentIdSortParm"] = sortOrder=="StudentId" ? "stid_desc" : "StudentId";
-            ViewData["DateSortParm"] = sortOrder=="Date" ? "date_desc" : "Date";
+            ViewData["StudentIdSortParm"] = sortOrder == "StudentId" ? "stid_desc" : "StudentId";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["SemSortParm"] = sortOrder == "Semester" ? "sem_desc" : "Semester";
             ViewData["LevelSortParm"] = sortOrder == "EducationLevel" ? "lvl_desc" : "EducationLevel";
             switch (sortOrder)
@@ -85,46 +85,46 @@ namespace rswebfaks.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 students = students.Where(s => s.StudentId.Contains(searchString) || s.FirstName.Contains(searchString) || s.LastName.Contains(searchString));
-               
+
             }
             if (!String.IsNullOrEmpty(courseString))
             {
                 var enrollments = _context.Enrollment.AsQueryable();
                 enrollments = enrollments.Where(m => m.Course.Title.Contains(courseString));
                 students = students.Where(s => s.Enrollments.Any(e => e.Course.Title == courseString));
-               
+
             }
-           return View(await students.ToListAsync());
+            return View(await students.ToListAsync());
         }
 
         // GET: Student/Details/5
         public async Task<IActionResult> Details(long? id)
         {
-            
+
             if (id == null)
             {
                 return NotFound();
             }
             var enrols = _context.Enrollment;
-            var student = await _context.Student.Include(s=>s.Enrollments).ThenInclude(s=>s.Course)
-               // .Include(s => s.Enrollments.Where(e=>e.Studentid == id))
+            var student = await _context.Student.Include(s => s.Enrollments).ThenInclude(s => s.Course)
+                // .Include(s => s.Enrollments.Where(e=>e.Studentid == id))
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
                 return NotFound();
             }
-            
-            return View( student);
+
+            return View(student);
         }
 
-  
+
         // GET: Student/Create
         public IActionResult Create()
         {
-           
+
             return View();
         }
-       
+
         // POST: Student/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -153,9 +153,9 @@ namespace rswebfaks.Controllers
             }
             return View();
         }
-        public string  UploadedFile(StudentViewModel model)
+        public string UploadedFile(StudentViewModel model)
         {
-            string uniqueFileName=null;
+            string uniqueFileName = null;
 
             if (model.ProfileImage != null)
             {
@@ -252,6 +252,13 @@ namespace rswebfaks.Controllers
         private bool StudentExists(long id)
         {
             return _context.Student.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> StudentView()
+        {
+            var students = from m in _context.Student
+                           select m;
+            return View(await students.ToListAsync());
         }
     }
 }
