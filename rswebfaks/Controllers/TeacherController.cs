@@ -1,24 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using rswebfaks.Data;
 using rswebfaks.Models;
+using rswebfaks.ViewModels;
 
 namespace rswebfaks.Controllers
 {
     public class TeacherController : Controller
     {
         private readonly OnlineCoursesContext _context;
+        private readonly OnlineCoursesContext dbContext;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public TeacherController(OnlineCoursesContext context)
+        public TeacherController(OnlineCoursesContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            dbContext = context;
+            webHostEnvironment = hostEnvironment;
         }
-
         // GET: Teacher
         public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
@@ -108,16 +114,45 @@ namespace rswebfaks.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Degree,AcademicRank,OfficeNumber,HireDate")] Teacher teacher)
+        public async Task<IActionResult> Create(TeacherViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(teacher);
-                await _context.SaveChangesAsync();
+                string uniqueFileName = UploadedFile(model);
+                Teacher teacher = new Teacher
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    AcademicRank=model.AcademicRank,
+                    OfficeNumber=model.OfficeNumber,
+                    HireDate=model.HireDate,
+                    Degree = model.Degree,
+                    ProfilePicture = uniqueFileName,
+                };
+                dbContext.Add(teacher);
+                await dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(teacher);
+            return View();
         }
+
+        public string UploadedFile(TeacherViewModel model)
+        {
+            string uniqueFileName = null;
+
+            if (model.ProfileImage != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(model.ProfileImage.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.ProfileImage.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }
+
 
         // GET: Teacher/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -140,7 +175,7 @@ namespace rswebfaks.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Degree,AcademicRank,OfficeNumber,HireDate")] Teacher teacher)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProfilePicture,FirstName,LastName,Degree,AcademicRank,OfficeNumber,HireDate")] Teacher teacher)
         {
             if (id != teacher.Id)
             {

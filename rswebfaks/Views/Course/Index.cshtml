@@ -72,11 +72,13 @@
                 @Html.DisplayFor(modelItem => item.EducationLevel)
             </td>
             <td>
+               
                 <a asp-controller="Teacher" asp-action="Details" asp-route-id="@item.FirstTeacherId">
                     @Html.DisplayFor(modelItem => item.Teacher1.FullName)
                 </a>
             </td>
             <td>
+               
                 <a asp-controller="Teacher" asp-action="Details" asp-route-id="@item.SecondTeacherId">
 
                     @Html.DisplayFor(modelItem => item.Teacher2.FullName)
@@ -85,12 +87,14 @@
             <td>
                 @foreach (var studenti in item.Enrollments)
                 {
-                    <a asp-controller="Enrollment" asp-action="Details" asp-route-id="@studenti.Id">
+
+                  
+                    <a asp-controller="Student" asp-action="Details" asp-route-id="@studenti.Student.Id">
                         @Html.DisplayFor(modelItem => studenti.Student.FullName)
-                        </a>
-                        <br />
-                        }
-                </td>
+                    </a>
+                    <br />
+                }
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

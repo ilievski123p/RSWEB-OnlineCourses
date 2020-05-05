@@ -10,8 +10,8 @@ using rswebfaks.Data;
 namespace rswebfaks.Migrations
 {
     [DbContext(typeof(OnlineCoursesContext))]
-    [Migration("20200421232034_Initial")]
-    partial class Initial
+    [Migration("20200503213253_rswebM")]
+    partial class rswebM
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,7 +72,7 @@ namespace rswebfaks.Migrations
                     b.Property<int>("AdditionalPoints")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Courseid")
+                    b.Property<int?>("CourseId")
                         .IsRequired()
                         .HasColumnType("int");
 
@@ -83,6 +83,9 @@ namespace rswebfaks.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Grade")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectPoints")
                         .HasColumnType("int");
 
                     b.Property<string>("ProjectUrl")
@@ -100,7 +103,7 @@ namespace rswebfaks.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<long?>("Studentid")
+                    b.Property<long?>("StudentId")
                         .IsRequired()
                         .HasColumnType("bigint");
 
@@ -109,9 +112,9 @@ namespace rswebfaks.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Courseid");
+                    b.HasIndex("CourseId");
 
-                    b.HasIndex("Studentid");
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Enrollment");
                 });
@@ -126,7 +129,7 @@ namespace rswebfaks.Migrations
                     b.Property<int>("AcquiredCredits")
                         .HasColumnType("int");
 
-                    b.Property<int>("CurrentSemester")
+                    b.Property<int>("CurrentSemestar")
                         .HasColumnType("int");
 
                     b.Property<string>("EducationLevel")
@@ -146,6 +149,9 @@ namespace rswebfaks.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("StudentId")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)")
@@ -158,7 +164,7 @@ namespace rswebfaks.Migrations
 
             modelBuilder.Entity("rswebfaks.Models.Teacher", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -185,7 +191,10 @@ namespace rswebfaks.Migrations
                     b.Property<string>("OfficeNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Teacher");
                 });
@@ -228,13 +237,13 @@ namespace rswebfaks.Migrations
                 {
                     b.HasOne("rswebfaks.Models.Course", "Course")
                         .WithMany("Enrollments")
-                        .HasForeignKey("Courseid")
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("rswebfaks.Models.Student", "Student")
                         .WithMany("Enrollments")
-                        .HasForeignKey("Studentid")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

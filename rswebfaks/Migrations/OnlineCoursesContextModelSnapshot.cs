@@ -147,6 +147,9 @@ namespace rswebfaks.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("StudentId")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)")
@@ -184,6 +187,9 @@ namespace rswebfaks.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("OfficeNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfilePicture")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

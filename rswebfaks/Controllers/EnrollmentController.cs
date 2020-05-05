@@ -1,22 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using rswebfaks.Data;
 using rswebfaks.Models;
+using rswebfaks.ViewModels;
 
 namespace rswebfaks.Controllers
 {
     public class EnrollmentController : Controller
     {
         private readonly OnlineCoursesContext _context;
+        private readonly OnlineCoursesContext dbContext;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public EnrollmentController(OnlineCoursesContext context)
+        public EnrollmentController(OnlineCoursesContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            dbContext = context;
+            webHostEnvironment = hostEnvironment;
         }
 
         // GET: Enrollment
@@ -59,17 +66,50 @@ namespace rswebfaks.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CourseId,StudentId,Semester,Year,Grade,SeminalUrl,ProjectUrl,ExamPoints,SeminalPoints,AdditionalPoints,FinishDate")] Enrollment enrollment)
+        public async Task<IActionResult> Create(EnrollmentViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(enrollment);
-                await _context.SaveChangesAsync();
+                string uniqueFileName = UploadedFile(model);
+                Enrollment enrol = new Enrollment
+                {
+                    CourseId = model.CourseId,
+                    StudentId = model.StudentId,
+                    Semester = model.Semester,
+                    Year = model.Year,
+                    Grade = model.Grade,
+                    ProjectUrl = model.ProjectUrl,
+                    ExamPoints = model.ExamPoints,
+                    SeminalPoints=model.SeminalPoints,
+                    ProjectPoints=model.ProjectPoints,
+                    AdditionalPoints=model.AdditionalPoints,
+                    FinishDate=model.FinishDate,
+                    SeminalUrl = uniqueFileName,
+                };
+                dbContext.Add(enrol);
+                await dbContext.SaveChangesAsync();
+                ViewData["Courseid"] = new SelectList(_context.Course, "Id", "Title");
+                ViewData["Studentid"] = new SelectList(_context.Student, "Id", "FullName");
                 return RedirectToAction(nameof(Index));
+
             }
-            ViewData["Courseid"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
-            ViewData["Studentid"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
-            return View(enrollment);
+            return View();
+        }
+        public string UploadedFile(EnrollmentViewModel model)
+        {
+            string uniqueFileName = null;
+
+            if (model.SeminalUrl != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "files");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(model.SeminalUrl.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.SeminalUrl.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
 
         // GET: Enrollment/Edit/5
@@ -95,7 +135,7 @@ namespace rswebfaks.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Courseid,Studentid,Semester,Year,Grade,SeminalUrl,ProjectUrl,ExamPoints,SeminalPoints,AdditionalPoints,FinishDate")] Enrollment enrollment)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,CourseId,StudentId,Semester,Year,Grade,SeminalUrl,ProjectUrl,ExamPoints,SeminalPoints,ProjectPoints,AdditionalPoints,FinishDate")] Enrollment enrollment)
         {
             if (id != enrollment.Id)
             {
@@ -122,8 +162,8 @@ namespace rswebfaks.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Courseid"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
-            ViewData["Studentid"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
             return View(enrollment);
         }
 

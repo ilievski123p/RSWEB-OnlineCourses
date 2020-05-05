@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using rswebfaks.Data;
 
-namespace rswebfaks
+namespace rswebfaks     
 {
     public class Startup
     {
@@ -28,6 +28,7 @@ namespace rswebfaks
             services.AddControllersWithViews();
             services.AddDbContext<OnlineCoursesContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("OnlineCoursesContext")));
+         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,9 +48,9 @@ namespace rswebfaks
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            
             app.UseAuthorization();
-
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

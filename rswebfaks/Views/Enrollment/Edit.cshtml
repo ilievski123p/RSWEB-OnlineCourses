@@ -15,16 +15,12 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="CourseId" class="control-label">Course</label>
-                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.Courseid">
-                    <option value="" disabled selected></option>
-                </select>
+                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
                 <span asp-validation-for="CourseId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StudentId" class="control-label">Student</label>
-                <select asp-for="StudentId" class="form-control" asp-items="ViewBag.Studentid">
-                    <option value="" disabled selected></option>
-                </select>
+                <select asp-for="StudentId" class="form-control" asp-items="ViewBag.StudentId"></select>
                 <span asp-validation-for="StudentId" class="text-danger"></span>
             </div>
             <div class="form-group">

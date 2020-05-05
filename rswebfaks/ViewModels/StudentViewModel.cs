@@ -1,20 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
+using rswebfaks.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace rswebfaks.Models
+namespace rswebfaks.ViewModels
 {
-    public class Student
+    public class StudentViewModel
     {
-        [Key]
         [Required]
-        public long Id { get; set; }
-
-        [Required]
-        [Display(Name ="StudentID")]
+        [Display(Name = "StudentID")]
         [StringLength(20)]
         public string StudentId { get; set; }
 
@@ -42,7 +39,8 @@ namespace rswebfaks.Models
         [Display(Name = "Education Level")]
         public string EducationLevel { get; set; }
 
-        public string ProfilePicture { get; set; }
+        [Display(Name ="Profile Picture")]
+        public IFormFile ProfileImage { get; set; }
 
         public string FullName
         {

@@ -19,31 +19,40 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayName("Profile Picture")
+            </th>
+            <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["FNameSortParm"]">
-                    @Html.DisplayNameFor(model => model.FirstName)</a>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </a>
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["LNameSortParm"]">
-                    @Html.DisplayNameFor(model => model.LastName)</a>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </a>
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["DegreeSortParm"]">
-                    @Html.DisplayNameFor(model => model.Degree)</a>
+                    @Html.DisplayNameFor(model => model.Degree)
+                </a>
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["RankSortParm"]">
-                    @Html.DisplayNameFor(model => model.AcademicRank)</a>
+                    @Html.DisplayNameFor(model => model.AcademicRank)
+                </a>
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["ofnumSortParm"]">
-                    @Html.DisplayNameFor(model => model.OfficeNumber)</a>
+                    @Html.DisplayNameFor(model => model.OfficeNumber)
+                </a>
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">
-                    @Html.DisplayNameFor(model => model.HireDate)</a>
+                    @Html.DisplayNameFor(model => model.HireDate)
+                </a>
             </th>
             <th>
-                    @Html.DisplayName("Courses")
+                @Html.DisplayName("Courses")
             </th>
             <th></th>
         </tr>
@@ -51,48 +60,54 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Degree)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AcademicRank)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OfficeNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HireDate)
-                </td>
-                <td>
-                    @foreach (var course in item.Courses1)
-                    {
-                        <a asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
-                            @Html.DisplayFor(modelItem => course.Title)
-                        </a>
-                        <br />
-                    }
-                    @foreach (var course in item.Courses2)
-                    {
-                        <a asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
-                            @Html.DisplayFor(modelItem => course.Title)
-                        </a>
-                        <br />
-                    }
+        <tr>
+            <td>
+                <img src="~/images/@item.ProfilePicture"
+                     class="rounded-circle"
+                     height="40" width="40"
+                     asp-append-version="true" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Degree)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AcademicRank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfficeNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HireDate)
+            </td>
+            <td>
+                @foreach (var course in item.Courses1)
+                {
+                    <a asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
+                        @Html.DisplayFor(modelItem => course.Title)
+                    </a>
+                    <br />
+                }
+                @foreach (var course in item.Courses2)
+                {
+                    <a asp-controller="Course" asp-action="Details" asp-route-id="@course.Id">
+                        @Html.DisplayFor(modelItem => course.Title)
+                    </a>
+                    <br />
+                }
 
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
