@@ -243,7 +243,7 @@ namespace rswebfaks.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> StudentEnrollmentEdit(long id, [Bind("Id,CourseId,StudentId,Semester,Year,Grade,SeminalUrl,ProjectUrl,ExamPoints,SeminalPoints,ProjectPoints,AdditionalPoints,FinishDate")] Enrollment enrollment)
+        public async Task<IActionResult> StudentEnrollmentEdit(long id, [Bind("SeminalUrl,ProjectUrl")] Enrollment enrollment)
         {
             if (id != enrollment.Id)
             {
@@ -268,7 +268,87 @@ namespace rswebfaks.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(StudentEnrollment));
+            }
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
+            return View(enrollment);
+        }
+
+
+
+        //---------------------------------------------------------------------------------------------------
+        [HttpGet]
+
+        public async Task<IActionResult> TeacherEnrollmentView([FromQuery] string courseYear,[FromQuery] string courseString)
+        {
+            var enrols = _context.Enrollment.Include(e => e.Course)
+                .Include(e => e.Student).AsQueryable();
+            var godina = DateTime.Now.Year;
+            enrols = enrols.Where(e => e.Course.Title.Contains(courseString)/* && e.Year == godina */);
+            enrols = enrols.OrderByDescending(e => e.Year);
+            if (!String.IsNullOrEmpty(courseYear))
+            {
+                int y;
+                Int32.TryParse(courseYear, out y);
+                enrols = enrols.Where(e => e.Year == y);
+
+            }
+
+            return View(await enrols.ToListAsync());
+        }
+
+
+
+        // GET: Enrollment/Edit/5
+        public async Task<IActionResult> TeacherEnrollmentEdit(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var enrollment = await _context.Enrollment.FindAsync(id);
+            if (enrollment == null)
+            {
+                return NotFound();
+            }
+            ViewData["Courseid"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
+            ViewData["Studentid"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
+            return View(enrollment);
+        }
+
+        // POST: Enrollment/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TeacherEnrollmentEdit(long id, [Bind("Grade,ExamPoints,SeminalPoints,ProjectPoints,AdditionalPoints,FinishDate")] Enrollment enrollment)
+        {
+            if (id != enrollment.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(enrollment);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EnrollmentExists(enrollment.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(StudentEnrollment));
             }
             ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
             ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);

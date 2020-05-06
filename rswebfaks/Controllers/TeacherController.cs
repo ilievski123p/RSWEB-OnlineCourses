@@ -238,5 +238,14 @@ namespace rswebfaks.Controllers
         {
             return _context.Teacher.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> TeacherView()
+        {
+            var teachers = from m in _context.Teacher
+                           select m;
+            return View(await teachers.ToListAsync());
+        }
+
+       
     }
 }

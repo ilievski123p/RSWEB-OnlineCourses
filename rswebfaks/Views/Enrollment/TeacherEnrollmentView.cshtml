@@ -4,10 +4,15 @@
     ViewData["Title"] = "Index";
 }
 
+<form asp-controller="Enrollment" asp-action="TeacherEnrollmentView" method="get">
+    <p style="position:relative; left:38%;">
+        <b>Search by:</b>
+        <input type="text" name="courseYear" placeholder="Year">
+        <input type="submit" value="Filter" />
 
-
-<h2 style="position:relative; left:45.5%;">Active Courses</h2>
-
+    </p>
+</form>
+<h2 style="position:relative; left:43%;">Active Students</h2>
 <table class="table">
     <thead>
         <tr>
@@ -53,14 +58,14 @@
         </tr>
     </thead>
     <tbody>
+
         @foreach (var item in Model)
-        {@if (!item.FinishDate.HasValue)
+        {
+            @if (!item.FinishDate.HasValue)
             {
                 <tr>
                     <td>
-                        <a asp-action="StudentEnrollmentEdit" asp-route-id="@item.Id">
-                            @Html.DisplayFor(modelItem => item.Course.Title)
-                        </a>
+                        @Html.DisplayFor(modelItem => item.Course.Title)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Student.FullName)
@@ -99,16 +104,18 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.FinishDate)
                     </td>
+
+                    <td>
+                        <a asp-action="TeacherEnrollmentEdit" asp-route-id="@item.Id">Edit</a>
+                      
+                    </td>
                 </tr>
             }
-    }
+        }
     </tbody>
 </table>
 
-
-
-
-<h2 style="position:relative; left:46%;">Past Courses</h2>
+<h2 style="position:relative; left:44.5%;">Past Students</h2>
 
 <table class="table">
     <thead>
@@ -201,7 +208,7 @@
                         @Html.DisplayFor(modelItem => item.FinishDate)
                     </td>
 
-
+                   
                 </tr>
             }
         }

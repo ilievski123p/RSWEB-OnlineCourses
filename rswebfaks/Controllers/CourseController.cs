@@ -231,5 +231,17 @@ namespace rswebfaks.Controllers
         {
             return _context.Course.Any(e => e.Id == id);
         }
+
+
+
+        public async Task<IActionResult> TeacherCourseView(string teacherString, string searchString, string sortOrder)
+        {
+            var courses = from c in _context.Course
+                          select c;
+            courses = courses.Include(c => c.Teacher2).Include(c => c.Teacher1).Include(c => c.Enrollments).ThenInclude(c => c.Student);
+            courses = courses.Where( c =>c.Teacher1.FirstName.Contains(searchString) || c.Teacher2.FirstName.Contains(searchString));
+            return View(await courses.ToListAsync());
+        }
+
     }
 }

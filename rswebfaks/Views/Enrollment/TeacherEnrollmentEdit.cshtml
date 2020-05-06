@@ -1,0 +1,91 @@
+﻿@model rswebfaks.Models.Enrollment
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 style="position:relative; left:48%;">Edit</h1>
+
+
+<hr />
+<div style="position:relative; left:35%;">
+    <div class="row">
+        <div class="col-md-4">
+
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="CourseId" class="control-label" hidden></label>
+                    <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId" hidden></select>
+                    <span asp-validation-for="CourseId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StudentId" class="control-label" hidden></label>
+                    <select asp-for="StudentId" class="form-control" asp-items="ViewBag.StudentId" hidden></select>
+                    <span asp-validation-for="StudentId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Semester" class="control-label"></label>
+                    <input asp-for="Semester" class="form-control" disabled />
+                    <span asp-validation-for="Semester" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Year" class="control-label"></label>
+                    <input asp-for="Year" class="form-control" disabled />
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Grade" class="control-label"></label>
+                    <input asp-for="Grade" class="form-control" />
+                    <span asp-validation-for="Grade" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SeminalUrl" class="control-label"></label>
+                    <input asp-for="SeminalUrl" class="form-control" disabled />
+                    <span asp-validation-for="SeminalUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProjectUrl" class="control-label"></label>
+                    <input asp-for="ProjectUrl" class="form-control" disabled />
+                    <span asp-validation-for="ProjectUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ExamPoints" class="control-label"></label>
+                    <input asp-for="ExamPoints" class="form-control" />
+                    <span asp-validation-for="ExamPoints" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SeminalPoints" class="control-label"></label>
+                    <input asp-for="SeminalPoints" class="form-control" />
+                    <span asp-validation-for="SeminalPoints" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProjectPoints" class="control-label"></label>
+                    <input asp-for="ProjectPoints" class="form-control" />
+                    <span asp-validation-for="ProjectPoints" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AdditionalPoints" class="control-label"></label>
+                    <input asp-for="AdditionalPoints" class="form-control" />
+                    <span asp-validation-for="AdditionalPoints" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FinishDate" class="control-label"></label>
+                    <input asp-for="FinishDate" class="form-control" />
+                    <span asp-validation-for="FinishDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a href="~/Enrollment/TeacherEnrollmentView?CourseString=@Html.DisplayFor(model => Model.Course.Title)">Back to List</a>
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
