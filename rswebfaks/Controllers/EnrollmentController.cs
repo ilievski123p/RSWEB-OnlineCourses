@@ -13,6 +13,7 @@ using rswebfaks.ViewModels;
 
 namespace rswebfaks.Controllers
 {
+    
     public class EnrollmentController : Controller
     {
         private readonly OnlineCoursesContext _context;
@@ -204,20 +205,14 @@ namespace rswebfaks.Controllers
         }
 
 
-
+        //----------------------------------------------------------------------------------------------------------
         public async Task<IActionResult> StudentEnrollment(string searchString)
         {
             var enrols = _context.Enrollment.Include(e => e.Course).Include(e => e.Student).AsQueryable();
             enrols = enrols.Where(m => m.Student.FirstName.Contains(searchString));
+            enrols = enrols.OrderByDescending(m => m.Semester);
             return View(await enrols.ToListAsync());
         }
-
-
-
-
-
-
-        //----------------------------------------------------------------------------------------------------------
 
 
         // GET: Enrollment/Edit/5
@@ -243,23 +238,23 @@ namespace rswebfaks.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> StudentEnrollmentEdit(long id, [Bind("SeminalUrl,ProjectUrl")] Enrollment enrollment)
+        public async Task<IActionResult> StudentEnrollmentEdit(long id,  EnrollmentViewModel entry)
         {
-            if (id != enrollment.Id)
-            {
-                return NotFound();
-            }
-
+            Enrollment enrol;
+             enrol = await _context.Enrollment.Include(e => e.Course).Include(e => e.Student).FirstOrDefaultAsync(m => m.Id == id);
+           
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(enrollment);
+                    enrol.ProjectUrl = entry.ProjectUrl;
+                    enrol.SeminalUrl = UploadedFile(entry);
+                    _context.Update(enrol);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EnrollmentExists(enrollment.Id))
+                    if (!EnrollmentExists(enrol.Id))
                     {
                         return NotFound();
                     }
@@ -268,11 +263,11 @@ namespace rswebfaks.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(StudentEnrollment));
+                return RedirectToPage("");
             }
-            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
-            return View(enrollment);
+        //    ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Title", enrol.CourseId);
+          //  ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
+            return View();
         }
 
 
@@ -282,19 +277,22 @@ namespace rswebfaks.Controllers
 
         public async Task<IActionResult> TeacherEnrollmentView([FromQuery] string courseYear,[FromQuery] string courseString)
         {
+            ViewData["CY"] = courseYear;
             var enrols = _context.Enrollment.Include(e => e.Course)
                 .Include(e => e.Student).AsQueryable();
             var godina = DateTime.Now.Year;
-            enrols = enrols.Where(e => e.Course.Title.Contains(courseString)/* && e.Year == godina */);
-            enrols = enrols.OrderByDescending(e => e.Year);
+            
             if (!String.IsNullOrEmpty(courseYear))
             {
-                int y;
-                Int32.TryParse(courseYear, out y);
-                enrols = enrols.Where(e => e.Year == y);
-
+                enrols = enrols.Where(e => e.Year.ToString().Contains(courseYear));
             }
-
+            else
+            {
+                enrols = enrols.Where(e => e.Course.Title.Contains(courseString) /*&& e.Year == godina */);
+                enrols = enrols.Where(e => e.Year.Equals(godina));
+                enrols = enrols.OrderByDescending(e => e.Year);
+            }
+            
             return View(await enrols.ToListAsync());
         }
 
@@ -323,7 +321,44 @@ namespace rswebfaks.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TeacherEnrollmentEdit(long id, [Bind("Grade,ExamPoints,SeminalPoints,ProjectPoints,AdditionalPoints,FinishDate")] Enrollment enrollment)
+        public async Task<IActionResult> TeacherEnrollmentEdit(long id, [Bind("Id,CourseId,StudentId,Semester,Year,Grade,SeminalUrl,ProjectUrl,ExamPoints,SeminalPoints,ProjectPoints,AdditionalPoints,FinishDate")] Enrollment enrollment)
+        {
+            if (id != enrollment.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(enrollment);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EnrollmentExists(enrollment.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToPage("");
+            }
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
+            return View(enrollment);
+        }
+
+
+
+        //---------------------------------------------------------------------------------
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminEnrollmentEdit(int id, [Bind("Id,CourseId,StudentId,Semester,Year,Grade,SeminalUrl,ProjectUrl,ExamPoints,SeminalPoints,ProjectPoints,AdditionalPoints,FinishDate")] Enrollment enrollment)
         {
             if (id != enrollment.Id)
             {
@@ -354,6 +389,127 @@ namespace rswebfaks.Controllers
             ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
             return View(enrollment);
         }
+
+
+
+
+        //------------------------------------------------------------------------------------------------
+        public async Task<IActionResult> StudentEnrollmentEdits(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var enrollment = await _context.Enrollment.FindAsync(id);
+            if (enrollment == null)
+            {
+                return NotFound();
+            }
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FullName", enrollment.StudentId);
+            EnrollmentViewModel vm = new EnrollmentViewModel
+            {
+                Id = enrollment.Id,
+                Semester = enrollment.Semester,
+                Year = enrollment.Year,
+                Grade = enrollment.Grade,
+                ProjectUrl = enrollment.ProjectUrl,
+                SeminalPoints = enrollment.SeminalPoints,
+                ProjectPoints = enrollment.ProjectPoints,
+                AdditionalPoints = enrollment.AdditionalPoints,
+                ExamPoints = enrollment.ExamPoints,
+                FinishDate = enrollment.FinishDate,
+                CourseId = enrollment.CourseId,
+                StudentId = enrollment.StudentId
+            };
+            ViewData["StudentName"] = _context.Student.Where(s => s.Id == enrollment.StudentId).Select(s => s.FullName).FirstOrDefault();
+            ViewData["CourseName"] = _context.Course.Where(s => s.Id == enrollment.CourseId).Select(s => s.Title).FirstOrDefault();
+            return View(vm);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> StudentEnrollmentEdits(long id, EnrollmentViewModel enrollment)
+        {
+            if (id != enrollment.Id)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string uniqueFileName = UploadedFile(enrollment);
+
+                    Enrollment enrollmentvm = new Enrollment
+                    {
+                        Id = enrollment.Id,
+                        Semester = enrollment.Semester,
+                        Year = enrollment.Year,
+                        Grade = enrollment.Grade,
+                        ProjectUrl = enrollment.ProjectUrl,
+                        SeminalPoints = enrollment.SeminalPoints,
+                        ProjectPoints = enrollment.ProjectPoints,
+                        AdditionalPoints = enrollment.AdditionalPoints,
+                        ExamPoints = enrollment.ExamPoints,
+                        FinishDate = enrollment.FinishDate,
+                        CourseId = enrollment.CourseId,
+                        StudentId = enrollment.StudentId,
+                        SeminalUrl = uniqueFileName
+                    };
+                    _context.Update(enrollmentvm);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EnrollmentExists(enrollment.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToPage("");
+            }
+            ViewData["CourseId"] = new SelectList(_context.Course, "Id", "Title", enrollment.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Student, "Id", "FirstName", enrollment.StudentId);
+            return View(enrollment);
+        }
+
+        //-------------------------------------------------------------------------------------------------------
+
+      /*  public IActionResult AdminStudentEnrollment(long? id)
+        {
+            var courses = _context.Enrollment.Include(e => e.Student).Where(e => e.CourseId == id).FirstOrDefault();
+            AdminEnrollmentViewModel coursestudent = new AdminEnrollmentViewModel
+            {
+             
+                Enrollments = courses,
+                StudentsList = new MultiSelectList(_context.Student.OrderBy(s => s.FirstName), "Id", "FullName"),
+                SelectedStudents = _context.Enrollment
+                                    .Where(s => s.CourseId == id)
+                                    .Include(m => m.Student).Select(sa => sa.StudentId)
+            };
+            return View(coursestudent);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminStudentEnrollment(int id, AdminEnrollmentViewModel NewEnroll)
+        {
+
+            IEnumerable<long> listStudents;
+            listStudents = NewEnroll.SelectedStudents;
+            IEnumerable<long> existStudents = _context.Enrollment.Where(s => listStudents.Contains(s.StudentId) && s.CourseId == id).Select(s => s.StudentId);
+            IEnumerable<long> newStudents = listStudents.Where(s => !existStudents.Contains(s));
+            foreach (int studentId in newStudents)
+                _context.Enrollment.Add(new Enrollment { StudentId = studentId, CourseId = id, Year = NewEnroll.Enrollments.Year, Semester = NewEnroll.Enrollments.Semester });
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        
+    */
+
 
     }
 }

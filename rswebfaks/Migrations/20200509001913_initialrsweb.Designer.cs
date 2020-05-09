@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using rswebfaks.Data;
 
 namespace rswebfaks.Migrations
 {
     [DbContext(typeof(OnlineCoursesContext))]
-    partial class OnlineCoursesContextModelSnapshot : ModelSnapshot
+    [Migration("20200509001913_initialrsweb")]
+    partial class initialrsweb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,22 +69,23 @@ namespace rswebfaks.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AdditionalPoints")
+                    b.Property<int?>("AdditionalPoints")
                         .HasColumnType("int");
 
-                    b.Property<int>("CourseId")
+                    b.Property<int?>("CourseId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("ExamPoints")
+                    b.Property<int?>("ExamPoints")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FinishDate")
+                    b.Property<DateTime?>("FinishDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Grade")
+                    b.Property<int?>("Grade")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProjectPoints")
+                    b.Property<int?>("ProjectPoints")
                         .HasColumnType("int");
 
                     b.Property<string>("ProjectUrl")
@@ -93,17 +96,18 @@ namespace rswebfaks.Migrations
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
-                    b.Property<int>("SeminalPoints")
+                    b.Property<int?>("SeminalPoints")
                         .HasColumnType("int");
 
                     b.Property<string>("SeminalUrl")
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<long>("StudentId")
+                    b.Property<long?>("StudentId")
+                        .IsRequired()
                         .HasColumnType("bigint");
 
-                    b.Property<int>("Year")
+                    b.Property<int?>("Year")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

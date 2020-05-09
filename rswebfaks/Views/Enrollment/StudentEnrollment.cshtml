@@ -54,11 +54,11 @@
     </thead>
     <tbody>
         @foreach (var item in Model)
-        {@if (!item.FinishDate.HasValue)
-            {
+        {
+            if (!item.FinishDate.HasValue) { 
                 <tr>
                     <td>
-                        <a asp-action="StudentEnrollmentEdit" asp-route-id="@item.Id">
+                        <a  asp-controller="Enrollment" asp-action="StudentEnrollmentEdits" asp-route-id="@item.Id">
                             @Html.DisplayFor(modelItem => item.Course.Title)
                         </a>
                     </td>
@@ -100,8 +100,8 @@
                         @Html.DisplayFor(modelItem => item.FinishDate)
                     </td>
                 </tr>
-            }
-    }
+           
+    }}
     </tbody>
 </table>
 
@@ -157,8 +157,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            @if (item.FinishDate.HasValue)
-            {
+            if (item.FinishDate.HasValue) { 
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Course.Title)

@@ -1,0 +1,40 @@
+﻿@model rswebfaks.ViewModels.AdminEnrollmentViewModel
+
+<h1>Enroll students</h1>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AdminStudentEnrollment">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Enrollments.CourseId" />
+            <div class="form-group">
+                <label asp-for="Enrollments.Semester" class="control-label"></label>
+                <input asp-for="Enrollments.Semester" class="form-control" />
+                <span asp-validation-for="Enrollments.Semester" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CourseId" class="control-label">Course</label>
+                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId" asp-placeholder=""></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Enrollments.Year" class="control-label"></label>
+                <input asp-for="Enrollments.Year" class="form-control" />
+                <span asp-validation-for="Enrollments.Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Students</label>
+                <select asp-for="SelectedStudents" class="form-control js-example-basic-multiple" asp-items="Model.StudentsList"></select>
+                <span asp-validation-for="SelectedStudents" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

@@ -6,8 +6,8 @@
 
 <form asp-controller="Enrollment" asp-action="TeacherEnrollmentView" method="get">
     <p style="position:relative; left:38%;">
-        <b>Search by:</b>
-        <input type="text" name="courseYear" placeholder="Year">
+        <b>Year:</b>
+        <input type="text" name="courseYear" value="@ViewData["CY"]" placeholder="Year">
         <input type="submit" value="Filter" />
 
     </p>
@@ -61,8 +61,7 @@
 
         @foreach (var item in Model)
         {
-            @if (!item.FinishDate.HasValue)
-            {
+            if (!item.FinishDate.HasValue) { 
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Course.Title)
@@ -106,7 +105,7 @@
                     </td>
 
                     <td>
-                        <a asp-action="TeacherEnrollmentEdit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="TeacherEnrollmentEdit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
                       
                     </td>
                 </tr>
@@ -164,8 +163,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            @if (item.FinishDate.HasValue)
-            {
+            if(item.FinishDate.HasValue) { 
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Course.Title)
@@ -210,7 +208,7 @@
 
                    
                 </tr>
-            }
-        }
+            
+        }}
     </tbody>
 </table>

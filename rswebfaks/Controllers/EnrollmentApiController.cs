@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using rswebfaks.Data;
 using rswebfaks.Models;
@@ -106,5 +107,14 @@ namespace rswebfaks.Controllers
         {
             return _context.Enrollment.Any(e => e.Id == id);
         }
+
+        [Route("api/Enrollment/TeacherEnrollmentView/{courseString}/{courseYear?}")]
+        public string Get(string courseString, string courseYear)
+        {
+            var enrols = _context.Enrollment.Include(e => e.Course)
+                .Include(e => e.Student).AsQueryable();
+            return "[Route]";
+        }
+
     }
 }

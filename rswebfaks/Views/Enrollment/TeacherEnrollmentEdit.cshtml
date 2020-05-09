@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-4">
 
-            <form asp-action="Edit">
+            <form asp-action="TeacherEnrollmentEdit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
                 <div class="form-group">
@@ -26,13 +26,13 @@
                     <span asp-validation-for="StudentId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Semester" class="control-label"></label>
-                    <input asp-for="Semester" class="form-control" disabled />
+                    <label asp-for="Semester" class="control-label" hidden></label>
+                    <input asp-for="Semester" class="form-control" hidden />
                     <span asp-validation-for="Semester" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Year" class="control-label"></label>
-                    <input asp-for="Year" class="form-control" disabled />
+                    <label asp-for="Year" class="control-label" hidden></label>
+                    <input asp-for="Year" class="form-control" hidden />
                     <span asp-validation-for="Year" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -41,13 +41,13 @@
                     <span asp-validation-for="Grade" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="SeminalUrl" class="control-label"></label>
-                    <input asp-for="SeminalUrl" class="form-control" disabled />
+                    <label asp-for="SeminalUrl" class="control-label" hidden></label>
+                    <input asp-for="SeminalUrl" class="form-control" hidden />
                     <span asp-validation-for="SeminalUrl" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="ProjectUrl" class="control-label"></label>
-                    <input asp-for="ProjectUrl" class="form-control" disabled />
+                    <label asp-for="ProjectUrl" class="control-label" hidden></label>
+                    <input asp-for="ProjectUrl" class="form-control" hidden />
                     <span asp-validation-for="ProjectUrl" class="text-danger"></span>
                 </div>
                 <div class="form-group">
