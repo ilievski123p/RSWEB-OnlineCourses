@@ -479,37 +479,84 @@ namespace rswebfaks.Controllers
 
         //-------------------------------------------------------------------------------------------------------
 
-      /*  public IActionResult AdminStudentEnrollment(long? id)
+        /*  public IActionResult AdminStudentEnrollment(long? id)
+          {
+              var courses = _context.Enrollment.Include(e => e.Student).Where(e => e.CourseId == id).FirstOrDefault();
+              AdminEnrollmentViewModel coursestudent = new AdminEnrollmentViewModel
+              {
+
+                  Enrollments = courses,
+                  StudentsList = new MultiSelectList(_context.Student.OrderBy(s => s.FirstName), "Id", "FullName"),
+                  SelectedStudents = _context.Enrollment
+                                      .Where(s => s.CourseId == id)
+                                      .Include(m => m.Student).Select(sa => sa.StudentId)
+              };
+              return View(coursestudent);
+          }
+          [HttpPost]
+          [ValidateAntiForgeryToken]
+          public async Task<IActionResult> AdminStudentEnrollment(int id, AdminEnrollmentViewModel NewEnroll)
+          {
+
+              IEnumerable<long> listStudents;
+              listStudents = NewEnroll.SelectedStudents;
+              IEnumerable<long> existStudents = _context.Enrollment.Where(s => listStudents.Contains(s.StudentId) && s.CourseId == id).Select(s => s.StudentId);
+              IEnumerable<long> newStudents = listStudents.Where(s => !existStudents.Contains(s));
+              foreach (int studentId in newStudents)
+                  _context.Enrollment.Add(new Enrollment { StudentId = studentId, CourseId = id, Year = NewEnroll.Enrollments.Year, Semester = NewEnroll.Enrollments.Semester });
+              await _context.SaveChangesAsync();
+              return RedirectToAction(nameof(Index));
+          }
+
+      
+
+        [HttpGet]
+        public async Task<IActionResult> UnEnrollStudents(long? id)
         {
-            var courses = _context.Enrollment.Include(e => e.Student).Where(e => e.CourseId == id).FirstOrDefault();
-            AdminEnrollmentViewModel coursestudent = new AdminEnrollmentViewModel
+
+            var course = _context.Course.Where(s => s.Id == id).Include(s => s.Enrollments).First();
+
+            if (course == null)
             {
-             
-                Enrollments = courses,
-                StudentsList = new MultiSelectList(_context.Student.OrderBy(s => s.FirstName), "Id", "FullName"),
-                SelectedStudents = _context.Enrollment
-                                    .Where(s => s.CourseId == id)
-                                    .Include(m => m.Student).Select(sa => sa.StudentId)
+                return NotFound();
+            }
+
+            var unEnrollStudentsVM = new UnEnrollStudents
+            {
+                Course = course,
+                StudentList = new MultiSelectList(_context.Student.OrderBy(s => s.Id), "Id", "FullName"),
+                SelectedStudents = course.Enrollments.Select(sa => sa.StudentId),
             };
-            return View(coursestudent);
+
+            return View(unEnrollStudentsVM);
         }
-        [HttpPost]
+
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AdminStudentEnrollment(int id, AdminEnrollmentViewModel NewEnroll)
+        public async Task<IActionResult> UnEnrollStudents(long id)
         {
 
-            IEnumerable<long> listStudents;
-            listStudents = NewEnroll.SelectedStudents;
-            IEnumerable<long> existStudents = _context.Enrollment.Where(s => listStudents.Contains(s.StudentId) && s.CourseId == id).Select(s => s.StudentId);
-            IEnumerable<long> newStudents = listStudents.Where(s => !existStudents.Contains(s));
-            foreach (int studentId in newStudents)
-                _context.Enrollment.Add(new Enrollment { StudentId = studentId, CourseId = id, Year = NewEnroll.Enrollments.Year, Semester = NewEnroll.Enrollments.Semester });
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-        
-    */
+            var enrollments = await _context.Enrollment.FirstOrDefaultAsync(s => s.Id == id);
+            await TryUpdateModelAsync<Enrollment>(
+               enrollments,
+               "",
+               s => s.FinishDate);
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(enrollments);
+        }
+        */
 
     }
 }

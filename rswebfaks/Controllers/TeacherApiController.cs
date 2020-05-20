@@ -83,7 +83,7 @@ namespace rswebfaks.Controllers
             _context.Teacher.Add(teacher);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTeacher", new { id = teacher.Id }, teacher);
+            return CreatedAtAction(nameof(GetTeacher), new { id = teacher.Id }, teacher);
         }
 
         // DELETE: api/TeacherApi/5

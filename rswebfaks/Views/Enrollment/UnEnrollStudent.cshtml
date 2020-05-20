@@ -1,0 +1,44 @@
+﻿
+@model rswebfaks.ViewModels.UnEnrollStudents
+@{
+    ViewData["Title"] = "Enrollments";
+}
+
+<h1>Unenroll for Course: @Html.DisplayFor(model => model.Course.Title)</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UnEnrollStudents">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="Semester" class="control-label"></label>
+                <input asp-for="Semester" class="form-control" />
+                <span asp-validation-for="Semester" class="text-danger">
+                </span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Students</label>
+                <select asp-for="SelectedStudents" class="form-control js-example-basic-multiple" asp-items="Model.StudentList"> </select>
+                <span asp-validation-for="SelectedStudents" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FinishDate" class="control-label"></label>
+                <input asp-for="FinishDate" class="form-control" />
+                <span asp-validation-for="FinishDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Unenroll" class="btn btn-primary" />
+            </div>
+        </form>
+
+    </div>
+</div>
+<div>
+    <a asp-controller="Course" asp-action="Index">Back to Courses</a>
+</div>

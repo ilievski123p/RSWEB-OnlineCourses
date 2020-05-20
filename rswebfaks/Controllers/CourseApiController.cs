@@ -44,7 +44,7 @@ namespace rswebfaks.Controllers
         }
         // PUT: api/CourseApi/1
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStudent([FromRoute] int id, [FromBody] Course course)
+        public async Task<IActionResult> PutCourse([FromRoute] int id, [FromBody] Course course)
         {
             if (!ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace rswebfaks.Controllers
 
         // POST: api/CourseApi
         [HttpPost]
-        public async Task<IActionResult> PostStudent([FromBody] Course course)
+        public async Task<IActionResult> PostCourse([FromBody] Course course)
         {
             if (!ModelState.IsValid)
             {
@@ -90,12 +90,12 @@ namespace rswebfaks.Controllers
             _context.Course.Add(course);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStudent", new { id = course.Id }, course);
+            return CreatedAtAction(nameof(GetCourse), new { id = course.Id }, course);
         }
 
         // DELETE: api/CourseApi/1
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStudent([FromRoute] int id)
+        public async Task<IActionResult> DeleteCourse([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {

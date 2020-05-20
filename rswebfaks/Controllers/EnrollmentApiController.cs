@@ -84,7 +84,7 @@ namespace rswebfaks.Controllers
             _context.Enrollment.Add(enrollment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEnrollment", new { id = enrollment.Id }, enrollment);
+            return CreatedAtAction(nameof(GetEnrollment), new { id = enrollment.Id }, enrollment);
         }
 
         // DELETE: api/EnrollmentApi/5
